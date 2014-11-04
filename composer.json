@@ -1,0 +1,24 @@
+{
+    "name": "wizacha/universign",
+    "type": "symfony-bundle",
+    "description": "Symfony WizachaUniversignBundle",
+    "keywords": ["Universign", "Wizacha"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Wizacha",
+            "homepage": "http://wizacha.github.io/"
+        }
+    ],
+    "require": {
+        "symfony/http-kernel": "~2.3",
+        "phpxmlrpc/phpxmlrpc": "~3.0"
+
+    },
+    "require-dev": {
+        "atoum/atoum": "dev-master"
+    },
+    "autoload": {
+        "psr-4": { "Wizacha\\UniversignBundle\\": "" }
+    }
+}
