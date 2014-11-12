@@ -27,8 +27,8 @@ class TransactionInfo extends atoum
             'creationDate'  => '14-12-1985',
             'description'   => 'description',
             'signerInfos'   => [
-                $signer1->getRawData(),
-                $signer2->getRawData(),
+                $signer1->getArrayCopy(),
+                $signer2->getArrayCopy(),
             ],
         ];
 

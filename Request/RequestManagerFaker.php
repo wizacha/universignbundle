@@ -11,9 +11,10 @@
 namespace Wizacha\UniversignBundle\Request;
 
 use Wizacha\UniversignBundle\Core\CoreSendObjectInterface;
+use Wizacha\UniversignBundle\Document\TransactionDocument;
+use Wizacha\UniversignBundle\Transaction\TransactionRequest;
 use Wizacha\UniversignBundle\Transaction\TransactionResponse;
-use Wizacha\UniversignBundle\Transaction\TransactionInfo;
-use Wizacha\UniversignBundle\Document\DocumentSimple;
+use Wizacha\UniversignBundle\Transaction\TransactionInfo;;
 
 class RequestManagerFaker implements RequestManagerInterface
 {
@@ -21,7 +22,7 @@ class RequestManagerFaker implements RequestManagerInterface
     /**
      * @inheritdoc
      */
-    public function requestTransaction(CoreSendObjectInterface $transaction_request)
+    public function requestTransaction(TransactionRequest $transaction_request)
     {
         return $transaction_request->getArrayData()['successURL'];
     }
@@ -41,7 +42,7 @@ class RequestManagerFaker implements RequestManagerInterface
      */
     public function getDocumentsByCustomId($custom_id)
     {
-        $document = new DocumentSimple();
+        $document = new TransactionDocument();
         $document->setContent($custom_id.'content');
         $document->setName($custom_id.'.doc');
         return $document;

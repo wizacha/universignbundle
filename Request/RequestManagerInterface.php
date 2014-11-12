@@ -11,6 +11,7 @@
 namespace Wizacha\UniversignBundle\Request;
 
 use Wizacha\UniversignBundle\Core\CoreSendObjectInterface;
+use Wizacha\UniversignBundle\Transaction\TransactionRequest;
 use Wizacha\UniversignBundle\Transaction\TransactionResponse;
 use Wizacha\UniversignBundle\Transaction\TransactionInfo;
 use Wizacha\UniversignBundle\Document\DocumentInterface;
@@ -18,10 +19,10 @@ use Wizacha\UniversignBundle\Document\DocumentInterface;
 interface RequestManagerInterface
 {
     /**
-     * @param CoreSendObjectInterface $transactionRequest
+     * @param TransactionRequest $transactionRequest
      * @return TransactionResponse
      */
-    public function requestTransaction(CoreSendObjectInterface $transaction_request);
+    public function requestTransaction(TransactionRequest $transaction_request);
 
     /**
      * @param string $custom_id

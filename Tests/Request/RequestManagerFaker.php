@@ -20,7 +20,9 @@ class RequestManagerFaker extends atoum
     {
         $manager = new TestedManager();
         $return_url = 'http://example.com/returnURL';
-        $request = new \mock\Wizacha\UniversignBundle\Core\CoreSendObjectInterface();
+        $controller = new \atoum\mock\controller();
+        $controller->__construct = function() {};
+        $request = new \mock\Wizacha\UniversignBundle\Transaction\TransactionRequest([],'','',[],'','', $controller);
         $request->getMockController()->getArrayData = ['successURL' => $return_url];
         $this
             ->string($manager->requestTransaction($request))
@@ -46,8 +48,8 @@ class RequestManagerFaker extends atoum
         $document = $manager->getDocumentsByCustomId($custom_id);
         $this
             ->object($document)
-                ->isInstanceOf('Wizacha\UniversignBundle\Document\DocumentSimple')
-            ->array($document->getData())
+                ->isInstanceOf('Wizacha\UniversignBundle\Document\TransactionDocument')
+            ->array($document->getArrayData())
                 ->isEqualTo([
                     'content'   => $custom_id.'content',
                     'name'      => $custom_id.'.doc'

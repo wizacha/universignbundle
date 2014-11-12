@@ -10,7 +10,6 @@
 
 namespace Wizacha\UniversignBundle\Transaction;
 
-use Wizacha\UniversignBundle\Core\BaseReturnObject;
 use Wizacha\UniversignBundle\Signer\SignerInfo;
 
 /**
@@ -19,7 +18,7 @@ use Wizacha\UniversignBundle\Signer\SignerInfo;
  * structure is used as a return value only, and will never be instanciated by users.
  * @package Wizacha\UniversignBundle\Transaction
  */
-class TransactionInfo extends BaseReturnObject
+class TransactionInfo extends \ArrayObject
 {
     /**
      * Signers can connect and sign
@@ -56,7 +55,7 @@ class TransactionInfo extends BaseReturnObject
      */
     public function getStatus()
     {
-        return $this->getField('status');
+        return @$this['status'];
     }
 
     /**
@@ -67,7 +66,7 @@ class TransactionInfo extends BaseReturnObject
      */
     public function getCurrentSigner()
     {
-        return $this->getField('currentSigner');
+        return @$this['currentSigner'];
     }
 
     /**
@@ -76,7 +75,7 @@ class TransactionInfo extends BaseReturnObject
      */
     public function getCreationDate()
     {
-        return $this->getField('creationDate');
+        return @$this['creationDate'];
     }
 
     /**
@@ -85,7 +84,7 @@ class TransactionInfo extends BaseReturnObject
      */
     public function getDescription()
     {
-        return $this->getField('description');
+        return @$this['description'];
     }
 
     /**
@@ -96,7 +95,7 @@ class TransactionInfo extends BaseReturnObject
      */
     public function getSignerInfos()
     {
-        $signer_infos = $this->getField('signerInfos');
+        $signer_infos = @$this['signerInfos'];
         if (!is_array($signer_infos)) {
             $signer_infos = [];
         }

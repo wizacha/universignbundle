@@ -9,7 +9,6 @@
  */
 
 namespace Wizacha\UniversignBundle\Certificate;
-use Wizacha\UniversignBundle\Core\BaseReturnObject;
 
 /**
  * Class CertificateInfo
@@ -18,7 +17,7 @@ use Wizacha\UniversignBundle\Core\BaseReturnObject;
  * value only, and will never be instanciated by users
  * @package Wizacha\UniversignBundle\Certificate
  */
-class CertificateInfo extends BaseReturnObject
+class CertificateInfo extends \ArrayObject
 {
 
     /**
@@ -28,7 +27,7 @@ class CertificateInfo extends BaseReturnObject
      */
     public function getSubject()
     {
-        return $this->getField('subject');
+        return @$this['subject'];
     }
 
     /**
@@ -38,7 +37,7 @@ class CertificateInfo extends BaseReturnObject
      */
     public function getIssuer()
     {
-        return $this->getField('issuer');
+        return @$this['issuer'];
     }
 
     /**
@@ -48,6 +47,6 @@ class CertificateInfo extends BaseReturnObject
      */
     public function getSerial()
     {
-        return $this->getField('serial');
+        return @$this['serial'];
     }
 }

@@ -10,7 +10,6 @@
 
 namespace Wizacha\UniversignBundle\Signer;
 use Wizacha\UniversignBundle\Certificate\CertificateInfo;
-use Wizacha\UniversignBundle\Core\BaseReturnObject;
 
 /**
  * Class SignerInfo
@@ -18,7 +17,7 @@ use Wizacha\UniversignBundle\Core\BaseReturnObject;
  * as a return value only, and will never be instanciated by users
  * @package Wizacha\UniversignBundle\Signer
  */
-class SignerInfo extends BaseReturnObject
+class SignerInfo extends \ArrayObject
 {
     /**
      * The signer has not yet been invited to sign. Others signers must sign prior this user.
@@ -66,7 +65,7 @@ class SignerInfo extends BaseReturnObject
      */
     public function getStatus()
     {
-        return $this->getField('status');
+        return @$this['status'];
     }
 
     /**
@@ -75,7 +74,7 @@ class SignerInfo extends BaseReturnObject
      */
     public function getError()
     {
-        return $this->getField('error');
+        return @$this['error'];
     }
 
     /**
@@ -87,7 +86,7 @@ class SignerInfo extends BaseReturnObject
      */
     public function getCertificateInfo()
     {
-        $raw_data = $this->getField('certificateInfo');
+        $raw_data = @$this['certificateInfo'];
         if (!is_array($raw_data)) {
             $raw_data = [];
         }
@@ -100,6 +99,6 @@ class SignerInfo extends BaseReturnObject
      */
     public function getURL()
     {
-        return $this->getField('url');
+        return @$this['url'];
     }
 }

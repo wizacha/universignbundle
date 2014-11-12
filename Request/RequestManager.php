@@ -11,8 +11,9 @@
 namespace Wizacha\UniversignBundle\Request;
 
 use Wizacha\UniversignBundle\Core\CoreSendObjectInterface;
-use Wizacha\UniversignBundle\Document\DocumentSimple;
+use Wizacha\UniversignBundle\Document\TransactionDocument;
 use Wizacha\UniversignBundle\Transaction\TransactionInfo;
+use Wizacha\UniversignBundle\Transaction\TransactionRequest;
 use Wizacha\UniversignBundle\Transaction\TransactionResponse;
 
 class RequestManager implements RequestManagerInterface
@@ -33,7 +34,7 @@ class RequestManager implements RequestManagerInterface
     /**
      * @inheritdoc
      */
-    public function requestTransaction(CoreSendObjectInterface $transaction_request)
+    public function requestTransaction(TransactionRequest $transaction_request)
     {
         $message = new \xmlrpcmsg(
             'requester.requestTransaction',
@@ -71,7 +72,7 @@ class RequestManager implements RequestManagerInterface
         );
         $response = $this->client->send($message);
         $this->handleErrors($response);
-        return new DocumentSimple($this->convertXmlValue($response->val));
+        return new TransactionDocument($this->convertXmlValue($response->val));
 
     }
 

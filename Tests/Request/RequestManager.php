@@ -12,7 +12,7 @@ namespace Wizacha\UniversignBundle\Request\tests\units;
 
 use \atoum;
 use \mock\Wizacha\UniversignBundle\Request\RequestManager as TestedManager;
-use Wizacha\UniversignBundle\Document\DocumentSimple;
+use Wizacha\UniversignBundle\Document\TransactionDocument;
 use Wizacha\UniversignBundle\Signer\TransactionSigner;
 use Wizacha\UniversignBundle\Transaction\TransactionInfo;
 use Wizacha\UniversignBundle\Transaction\TransactionRequest;
@@ -37,7 +37,7 @@ class RequestManager extends atoum
 {
     public function testRequestTransactionConvertRequestAndCheckErrors()
     {
-        $request = $this->getMockCoreSendObjectInterface(
+        $request = $this->getMockTransactionRequest(
             [
                 'customId'              => 'custom_id',
                 'successURL'            => 'success_url',
@@ -47,7 +47,6 @@ class RequestManager extends atoum
                     'organization'  => 'sign_organization',
                     'emailAddress'  => 'sign_email_address',
                     'phoneNum'      => 'sign_phone_num',
-                    'birthDate'     => '1985-12-14'
                 ]],
                 'identificationType'    => 'sms',
                 'language'              => 'fr',
@@ -69,7 +68,6 @@ class RequestManager extends atoum
                             'organization'  => new \xmlrpcval('sign_organization'),
                             'emailAddress'  => new \xmlrpcval('sign_email_address'),
                             'phoneNum'      => new \xmlrpcval('sign_phone_num'),
-                            'birthDate'     => new \xmlrpcval('1985-12-14', 'dateTime.iso8601')
                         ],
                         'struct')
                 ],
@@ -175,7 +173,7 @@ class RequestManager extends atoum
                 ->call('handleErrors')
                     ->once()
             ->object($retour)
-                ->isEqualTo(new DocumentSimple(['content' => 'hello world', 'name' => 'doc_name']))
+                ->isEqualTo(new TransactionDocument(['content' => 'hello world', 'name' => 'doc_name']))
         ;
 
     }
@@ -255,9 +253,11 @@ class RequestManager extends atoum
         $this->exception(function () use ($manager, $response) {$manager->handleErrors($response);});
     }
 
-    protected function getMockCoreSendObjectInterface($get_array_data_value = [])
+    protected function getMockTransactionRequest($get_array_data_value = [])
     {
-        $return = new \mock\Wizacha\UniversignBundle\Core\CoreSendObjectInterface();
+        $controller = new \atoum\mock\controller();
+        $controller->__construct = function() {};
+        $return = new \mock\Wizacha\UniversignBundle\Transaction\TransactionRequest([],'','',[],'','', $controller);
         $return->getMockController()->getArrayData = $get_array_data_value;
         return $return;
     }

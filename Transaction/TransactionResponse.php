@@ -10,7 +10,6 @@
 
 namespace Wizacha\UniversignBundle\Transaction;
 
-use Wizacha\UniversignBundle\Core\BaseReturnObject;
 
 /**
  * Class TransactionResponse
@@ -19,7 +18,7 @@ use Wizacha\UniversignBundle\Core\BaseReturnObject;
  * instanciated by users.
  * @package Wizacha\UniversignBundle\Transaction
  */
-class TransactionResponse extends BaseReturnObject
+class TransactionResponse extends \ArrayObject
 {
 
     /**
@@ -28,7 +27,7 @@ class TransactionResponse extends BaseReturnObject
      */
     public function getUrl()
     {
-        return $this->getField('url');
+        return @$this['url'];
     }
 
     /**
@@ -37,7 +36,7 @@ class TransactionResponse extends BaseReturnObject
      */
     public function getId()
     {
-        return $this->getField('id');
+        return @$this['id'];
     }
 
 }
