@@ -11,13 +11,13 @@
 namespace Wizacha\UniversignBundle\Document\tests\units;
 
 use \atoum;
-use Wizacha\UniversignBundle\Document\DocumentSimple as TestedDocumentSimple;
+use Wizacha\UniversignBundle\Document\TransactionDocument as TestedTransactionDocument;
 
-class DocumentSimple extends atoum
+class TransactionDocument extends atoum
 {
-    public function testDocumentSimple()
+    public function testTransactionDocument()
     {
-        $doc = new TestedDocumentSimple();
+        $doc = new TestedTransactionDocument();
         $doc->setContent('my content');
         $doc->setName('my name');
         $this->array($doc->getArrayData())->isEqualTo(['content' => 'my content', 'name' => 'my name']);

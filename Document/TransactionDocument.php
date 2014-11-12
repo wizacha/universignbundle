@@ -10,17 +10,21 @@
 
 namespace Wizacha\UniversignBundle\Document;
 
-use Wizacha\UniversignBundle\Core\BaseReturnObject;
 use Wizacha\UniversignBundle\Core\CoreSendObjectInterface;
 
-class DocumentSimple extends BaseReturnObject implements CoreSendObjectInterface
+/**
+ * Class TransactionDocument
+ * this class is used like output and input data.
+ * @package Wizacha\UniversignBundle\Document
+ */
+class TransactionDocument extends \ArrayObject implements CoreSendObjectInterface
 {
     /**
      * @param string $content
      */
     public function setContent($content)
     {
-        $this->datas['content'] = $content;
+        $this->offsetSet('content', $content);
     }
 
     /**
@@ -28,11 +32,11 @@ class DocumentSimple extends BaseReturnObject implements CoreSendObjectInterface
      */
     public function setName($name)
     {
-        $this->datas['name'] = $name;
+        $this->offsetSet('name', $name);
     }
 
     public function getArrayData()
     {
-        return $this->datas;
+        return $this->getArrayCopy();
     }
 }
