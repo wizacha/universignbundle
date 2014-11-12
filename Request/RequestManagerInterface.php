@@ -10,7 +10,6 @@
 
 namespace Wizacha\UniversignBundle\Request;
 
-use Wizacha\UniversignBundle\Core\CoreSendObjectInterface;
 use Wizacha\UniversignBundle\Transaction\TransactionRequest;
 use Wizacha\UniversignBundle\Transaction\TransactionResponse;
 use Wizacha\UniversignBundle\Transaction\TransactionInfo;

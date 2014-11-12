@@ -10,14 +10,12 @@
 
 namespace Wizacha\UniversignBundle\Document;
 
-use Wizacha\UniversignBundle\Core\CoreSendObjectInterface;
-
 /**
  * Class TransactionDocument
  * this class is used like output and input data.
  * @package Wizacha\UniversignBundle\Document
  */
-class TransactionDocument extends \ArrayObject implements CoreSendObjectInterface
+class TransactionDocument extends \ArrayObject
 {
     /**
      * @param string $content
@@ -28,6 +26,14 @@ class TransactionDocument extends \ArrayObject implements CoreSendObjectInterfac
     }
 
     /**
+     * @return string|null
+     */
+    public function getContent()
+    {
+        return @$this['content'];
+    }
+
+    /**
      * @param string $name
      */
     public function setName($name)
@@ -35,8 +41,11 @@ class TransactionDocument extends \ArrayObject implements CoreSendObjectInterfac
         $this->offsetSet('name', $name);
     }
 
-    public function getArrayData()
+    /**
+     * @return string|null
+     */
+    public function getName()
     {
-        return $this->getArrayCopy();
+        return @$this['name'];
     }
 }

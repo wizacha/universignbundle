@@ -25,7 +25,7 @@ class TransactionSigner extends atoum
         $phone = '33123456789';
         $signer = new TestedSigner($firstname, $lastname, $email, $organization, $phone);
         $this
-            ->array($signer->getArrayData())->isEqualTo(
+            ->array($signer->getArrayCopy())->isEqualTo(
                 [
                     'firstname'     => $firstname,
                     'lastname'      => $lastname,

@@ -10,7 +10,6 @@
 
 namespace Wizacha\UniversignBundle\Request;
 
-use Wizacha\UniversignBundle\Core\CoreSendObjectInterface;
 use Wizacha\UniversignBundle\Document\TransactionDocument;
 use Wizacha\UniversignBundle\Transaction\TransactionRequest;
 use Wizacha\UniversignBundle\Transaction\TransactionResponse;
@@ -24,7 +23,7 @@ class RequestManagerFaker implements RequestManagerInterface
      */
     public function requestTransaction(TransactionRequest $transaction_request)
     {
-        return $transaction_request->getArrayData()['successURL'];
+        return $transaction_request->getArrayCopy()['successURL'];
     }
 
     /**

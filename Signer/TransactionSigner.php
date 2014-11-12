@@ -10,43 +10,14 @@
 
 namespace Wizacha\UniversignBundle\Signer;
 
-use Wizacha\UniversignBundle\Core\CoreSendObjectInterface;
-
 /**
  * Class TransactionSigner
  * A transactionSigner describes and contains options for a
  * document signer.
  * @package Wizacha\UniversignBundle\Signer
  */
-class TransactionSigner implements CoreSendObjectInterface
+class TransactionSigner extends \ArrayObject
 {
-    /**
-     * @var string
-     */
-    protected $firstname        = '';
-
-    /**
-     * @var string
-     */
-    protected $lastname         = '';
-
-    /**
-     * @var string
-     */
-    protected $email_address    = '';
-
-    /**
-     * @var string
-     */
-    protected $organization     = '';
-
-    /**
-     * Expect international format.
-     * By example, in France 33XXXXXXXXX 
-     * @var string
-     */
-    protected $phone_num        = '';
-
     /**
      * @param string $firstname
      * @param string $lastname
@@ -54,26 +25,17 @@ class TransactionSigner implements CoreSendObjectInterface
      * @param string $organization
      * @param string $phone_num
      */
-    public function __construct($firstname = '', $lastname = '', $email_address = '', $organization = '', $phone_num = '', $birthdate = '')
+    public function __construct($firstname = '', $lastname = '', $email_address = '', $organization = '', $phone_num = '')
     {
-        $this->firstname        = $firstname;
-        $this->lastname         = $lastname;
-        $this->email_address    = $email_address;
-        $this->organization     = $organization;
-        $this->phone_num        = $phone_num;
+        parent::__construct(
+            [
+                'firstname'     => $firstname,
+                'lastname'      => $lastname,
+                'emailAddress'  => $email_address,
+                'organization'  => $organization,
+                'phoneNum'      => $phone_num,
+            ]
+        );
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getArrayData()
-    {
-        return [
-            'firstname'     => $this->firstname,
-            'lastname'      => $this->lastname,
-            'emailAddress'  => $this->email_address,
-            'organization'  => $this->organization,
-            'phoneNum'      => $this->phone_num,
-        ];
-    }
 }

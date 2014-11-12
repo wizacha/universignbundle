@@ -258,7 +258,7 @@ class RequestManager extends atoum
         $controller = new \atoum\mock\controller();
         $controller->__construct = function() {};
         $return = new \mock\Wizacha\UniversignBundle\Transaction\TransactionRequest([],'','',[],'','', $controller);
-        $return->getMockController()->getArrayData = $get_array_data_value;
+        $return->getMockController()->getArrayCopy = $get_array_data_value;
         return $return;
     }
 

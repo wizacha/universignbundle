@@ -20,6 +20,6 @@ class TransactionDocument extends atoum
         $doc = new TestedTransactionDocument();
         $doc->setContent('my content');
         $doc->setName('my name');
-        $this->array($doc->getArrayData())->isEqualTo(['content' => 'my content', 'name' => 'my name']);
+        $this->array($doc->getArrayCopy())->isEqualTo(['content' => 'my content', 'name' => 'my name']);
     }
 }

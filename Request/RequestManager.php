@@ -10,7 +10,6 @@
 
 namespace Wizacha\UniversignBundle\Request;
 
-use Wizacha\UniversignBundle\Core\CoreSendObjectInterface;
 use Wizacha\UniversignBundle\Document\TransactionDocument;
 use Wizacha\UniversignBundle\Transaction\TransactionInfo;
 use Wizacha\UniversignBundle\Transaction\TransactionRequest;
@@ -38,7 +37,7 @@ class RequestManager implements RequestManagerInterface
     {
         $message = new \xmlrpcmsg(
             'requester.requestTransaction',
-            [new \xmlrpcval($this->convertParams($transaction_request), 'struct')]
+            [new \xmlrpcval($this->convertParams($transaction_request->getArrayCopy()), 'struct')]
         );
 
         //return $message;
@@ -115,14 +114,12 @@ class RequestManager implements RequestManagerInterface
 
     protected function convertParams($params)
     {
-        if ($params instanceof CoreSendObjectInterface) {
-            $params = $params->getArrayData();
-        } elseif (!is_array($params)) {
+        if (!is_array($params)) {
             return new \xmlrpcval($params);
         }
         $return = [];
         foreach ($params as $param_name => $value) {
-            if (($value instanceof CoreSendObjectInterface) || is_array($value)) {
+            if (is_array($value)) {
                 $return[$param_name] = new \xmlrpcval(
                     $this->convertParams($value),
                     $this->getParamType($param_name, true)

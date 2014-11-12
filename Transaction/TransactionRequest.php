@@ -10,9 +10,10 @@
 
 namespace Wizacha\UniversignBundle\Transaction;
 
-use Wizacha\UniversignBundle\Core\CoreSendObjectInterface;
 use Wizacha\UniversignBundle\Document\DocumentInterface;
+use Wizacha\UniversignBundle\Document\TransactionDocument;
 use Wizacha\UniversignBundle\Signer\SignerUserInterface;
+use Wizacha\UniversignBundle\Signer\TransactionSigner;
 
 /**
  * Class TransactionRequest
@@ -20,28 +21,8 @@ use Wizacha\UniversignBundle\Signer\SignerUserInterface;
  * Signature transaction creation.
  * @package Wizacha\UniversignBundle\Transaction
  */
-class TransactionRequest implements CoreSendObjectInterface
+class TransactionRequest extends \ArrayObject
 {
-    /**
-     * @var array list of DocumentInterface
-     */
-    protected $documents            = [];
-
-    /**
-     * @var string
-     */
-    protected $custom_id            = '';
-
-    /**
-     * @var string
-     */
-    protected $successURL           = '';
-
-    /**
-     * @var array list of SignerUserInterface
-     */
-    protected $signers              = [];
-
     /**
      * This option indicate wich authentification type will be used
      * when a signer will attempt to sign
@@ -65,47 +46,48 @@ class TransactionRequest implements CoreSendObjectInterface
      */
     public function __construct(array $documents, $custom_id, $successURL, array $signers, $identification_type = 'none', $language = 'en')
     {
-        $documents = array_filter($documents, function ($document) {return $document instanceof CoreSendObjectInterface;});
+        $documents = array_filter($documents, function ($document) {return $document instanceof TransactionDocument;});
         if(empty($documents)) {
             throw new \Exception('TransactionRequest require at least one document');
         }
 
-        $signers = array_filter($signers, function ($signer) {return $signer instanceof CoreSendObjectInterface;});
+        $signers = array_filter($signers, function ($signer) {return $signer instanceof TransactionSigner;});
         if(empty($signers)) {
             throw new \Exception('TransactionRequest require at least one signer');
         }
 
-        $this->documents            = $documents;
-        $this->custom_id            = $custom_id;
-        $this->successURL           = $successURL;
-        $this->signers              = $signers;
-        $this->identification_type  = $identification_type;
-        $this->language             = $language;
+        parent::__construct(
+            [
+                'customId'              => $custom_id,
+                'successURL'            => $successURL,
+                'documents'             => $documents,
+                'signers'               => $signers,
+                'identificationType'    => $identification_type,
+                'language'              => $language,
+
+            ]
+        );
     }
 
     /**
      * @inheritdoc
      */
-    public function getArrayData()
+    public function getArrayCopy()
     {
         $signers  = [];
         $documents =  [];
 
-        foreach ($this->signers as $signer) {
-            $signers[] = $signer->getArrayData();
+        foreach ($this['signers'] as $signer) {
+            $signers[] = $signer->getArrayCopy();
         }
 
-        foreach ($this->documents as $document) {
-            $documents[] = $document->getArrayData();
+        foreach ($this['documents'] as $document) {
+            $documents[] = $document->getArrayCopy();
         }
 
-        return [
-            'customId'              => $this->custom_id,
-            'successURL'            => $this->successURL,
-            'signers'               => $signers,
-            'documents'             => $documents,
-            'identificationType'    => $this->identification_type,
-            'language'              => $this->language,
-        ];
+        return array_merge(parent::getArrayCopy(), [
+                'documents' => $documents,
+                'signers'   => $signers
+            ]);
     }
 }

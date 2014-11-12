@@ -11,33 +11,34 @@
 namespace Wizacha\UniversignBundle\Transaction\tests\units;
 
 use \atoum;
+use Wizacha\UniversignBundle\Document\tests\units\TransactionDocument;
 use Wizacha\UniversignBundle\Transaction\TransactionRequest as TestedTransactionRequest;
 
 
 class TransactionRequest extends atoum
 {
-    public function testGetArrayDataReturnCorrectData()
+    public function testGetArrayCopyReturnCorrectData()
     {
 
 
         $request = new TestedTransactionRequest(
             [
-                $this->getMockCoreSendObjectInterface(['document' => 1]),
+                $this->getMockTransactionDocument(['document' => 1]),
                 'document 3',
-                $this->getMockCoreSendObjectInterface(['document' => 2]),
+                $this->getMockTransactionDocument(['document' => 2]),
             ],
             'my_custom_id',
             'success_url',
             [
-                $this->getMockCoreSendObjectInterface(['signer' => 1]),
+                $this->getMockTransactionSigners(['signer' => 1]),
                 'signer 3',
-                $this->getMockCoreSendObjectInterface(['signer' => 2]),
+                $this->getMockTransactionSigners(['signer' => 2]),
             ],
             'identification_type',
             'specific language'
         );
         $this
-            ->array($request->getArrayData())->isEqualTo(
+            ->array($request->getArrayCopy())->isEqualTo(
             [
                 'customId' => 'my_custom_id',
                 'successURL' => 'success_url',
@@ -56,12 +57,18 @@ class TransactionRequest extends atoum
         ;
     }
 
-    protected function getMockCoreSendObjectInterface($get_array_data_value = [])
+    protected function getMockTransactionDocument($get_array_data_value = [])
     {
-        $return = new \mock\Wizacha\UniversignBundle\Core\CoreSendObjectInterface();
-        $return->getMockController()->getArrayData = $get_array_data_value;
+        $return = new \mock\Wizacha\UniversignBundle\Document\TransactionDocument([]);
+        $return->getMockController()->getArrayCopy = $get_array_data_value;
         return $return;
     }
 
+    protected function getMockTransactionSigners($get_array_data_value = [])
+    {
+        $return = new \mock\Wizacha\UniversignBundle\Signer\TransactionSigner([]);
+        $return->getMockController()->getArrayCopy = $get_array_data_value;
+        return $return;
+    }
 
 }
