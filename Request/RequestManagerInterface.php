@@ -13,7 +13,7 @@ namespace Wizacha\UniversignBundle\Request;
 use Wizacha\UniversignBundle\Transaction\TransactionRequest;
 use Wizacha\UniversignBundle\Transaction\TransactionResponse;
 use Wizacha\UniversignBundle\Transaction\TransactionInfo;
-use Wizacha\UniversignBundle\Document\DocumentInterface;
+use Wizacha\UniversignBundle\Document\TransactionDocument;
 
 interface RequestManagerInterface
 {
@@ -31,7 +31,7 @@ interface RequestManagerInterface
 
     /**
      * @param string $custom_id
-     * @return DocumentInterface
+     * @return TransactionDocument
      */
     public function getDocumentsByCustomId($custom_id);
 

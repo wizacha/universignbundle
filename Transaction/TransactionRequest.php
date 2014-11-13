@@ -10,7 +10,6 @@
 
 namespace Wizacha\UniversignBundle\Transaction;
 
-use Wizacha\UniversignBundle\Document\DocumentInterface;
 use Wizacha\UniversignBundle\Document\TransactionDocument;
 use Wizacha\UniversignBundle\Signer\SignerUserInterface;
 use Wizacha\UniversignBundle\Signer\TransactionSigner;
