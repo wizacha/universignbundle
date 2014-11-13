@@ -37,7 +37,7 @@ class RequestManager implements RequestManagerInterface
     {
         $message = new \xmlrpcmsg(
             'requester.requestTransaction',
-            [new \xmlrpcval($this->convertParams($transaction_request->getArrayCopy()), 'struct')]
+            [$this->convertParams($transaction_request->getArrayCopy(), 'transactionRequest')]
         );
 
         //return $message;
@@ -99,36 +99,41 @@ class RequestManager implements RequestManagerInterface
         return $value;
     }
 
-    protected function getParamType($param, $is_complex = false)
+    protected function getParamType($param)
     {
         static $list = [
-            'signers'   => 'array',
-            'documents' => 'array',
-            'content'   => 'base64',
+            'content'               => 'base64',
+            'customId'              => 'string',
+            'documents'             => 'array',
+            'emailAddress'          => 'string',
+            'firstname'             => 'string',
+            'identificationType'    => 'string',
+            'language'              => 'string',
+            'lastname'              => 'string',
+            'location'              => 'string',
+            'name'                  => 'string',
+            'organization'          => 'string',
+            'phoneNum'              => 'string',
+            'profile'               => 'string',
+            'reason'                => 'string',
+            'signatureFormat'       => 'string',
+            'signers'               => 'array',
+            'successURL'            => 'string',
         ];
-        if (!isset($list[$param])) {
-            return $is_complex ? 'struct' : 'string';
-        }
-        return $list[$param];
+
+        return $list[$param]?:'struct';
     }
 
-    protected function convertParams($params)
+    protected function convertParams($params, $key)
     {
         if (!is_array($params)) {
-            return new \xmlrpcval($params);
+            return new \xmlrpcval($params, $this->getParamType($key));
         }
         $return = [];
         foreach ($params as $param_name => $value) {
-            if (is_array($value)) {
-                $return[$param_name] = new \xmlrpcval(
-                    $this->convertParams($value),
-                    $this->getParamType($param_name, true)
-                );
-            } else {
-                $return[$param_name] = new \xmlrpcval($value, $this->getParamType($param_name));
-            }
+            $return[$param_name] = $this->convertParams($value, $param_name);
         }
-        return $return;
+        return new \xmlrpcval($return, $this->getParamType($key));
     }
 
 }
