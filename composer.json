@@ -1,5 +1,5 @@
 {
-    "name": "wizacha/universign",
+    "name": "wizacha/universign-bundle",
     "type": "symfony-bundle",
     "description": "Symfony WizachaUniversignBundle",
     "keywords": ["Universign", "Wizacha"],
