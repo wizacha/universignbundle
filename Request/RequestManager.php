@@ -40,7 +40,6 @@ class RequestManager implements RequestManagerInterface
             [$this->convertParams($transaction_request->getArrayCopy(), 'transactionRequest')]
         );
 
-        //return $message;
         $response = $this->client->send($message);
         $this->handleErrors($response);
         return new TransactionResponse($this->convertXmlValue($response->val));

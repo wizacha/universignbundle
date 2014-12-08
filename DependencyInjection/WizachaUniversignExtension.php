@@ -10,11 +10,10 @@
 
 namespace Wizacha\UniversignBundle\DependencyInjection;
 
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Routing\Loader\YamlFileLoader;
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class WizachaUniversignExtension extends Extension
 {
@@ -24,7 +23,6 @@ class WizachaUniversignExtension extends Extension
             $container,
             new FileLocator(__DIR__.'/../Resources/config')
         );
-        $loader->load('service.yml');
-
+        $loader->load('services.yml');
     }
 }

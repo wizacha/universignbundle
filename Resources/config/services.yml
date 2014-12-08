@@ -1,10 +1,8 @@
 parameters:
-    xmlrpc_client:
-        class:        Seven\RpcBundle\XmlRpc\Client
-        basic_auth:   ""
-        url:          ws.universign.eu/sign/rpc/
-    request_manager:
-        class:        Wizacha\Universign\Request\RequestManager
+    xmlrpc_client.class:        xmlrpc_client
+    xmlrpc_client.basic_auth:   ""
+    xmlrpc_client.url:          ws.universign.eu/sign/rpc/
+    request_manager.class:      Wizacha\UniversignBundle\Request\RequestManager
 
 services:
     xmlrpc_client:
