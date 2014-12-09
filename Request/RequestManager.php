@@ -25,9 +25,10 @@ class RequestManager implements RequestManagerInterface
     /**
      * @param \xmlrpc_client $client
      */
-    public function __construct(\xmlrpc_client $client)
+    public function __construct(\xmlrpc_client $client, $prefix)
     {
         $this->client = $client;
+        $client->setSSLVerifyHost(2);
     }
 
     /**
@@ -120,7 +121,7 @@ class RequestManager implements RequestManagerInterface
             'successURL'            => 'string',
         ];
 
-        return $list[$param]?:'struct';
+        return isset($list[$param]) ? $list[$param] : 'struct';
     }
 
     protected function convertParams($params, $key)
