@@ -23,10 +23,16 @@ class RequestManagerFaker extends atoum
         $controller = new \atoum\mock\controller();
         $controller->__construct = function() {};
         $request = new \mock\Wizacha\UniversignBundle\Transaction\TransactionRequest([],'','',[],'','', $controller);
-        $request->getMockController()->getArrayCopy = ['successURL' => $return_url];
+        $request->getMockController()->getArrayCopy = ['successURL' => $return_url, 'customId' => 'myId'];
+        $expected_response = new \Wizacha\UniversignBundle\Transaction\TransactionResponse(
+            [
+                'url' => $return_url,
+                'id'  => 'myId',
+            ]
+        );
         $this
-            ->string($manager->requestTransaction($request))
-                ->isEqualTo($return_url);
+            ->object($manager->requestTransaction($request))
+                ->isEqualTo($expected_response);
     }
 
     public function testGetTransactionInfoByCustomIdReturnSuccessedTransaction()

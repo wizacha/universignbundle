@@ -22,12 +22,17 @@ class RequestManager implements RequestManagerInterface
      * @var null|\xmlrpcval
      */
     protected $client = null;
+
+    protected $prefix = '';
     /**
      * @param \xmlrpc_client $client
+     * @param string $prefix
      */
-    public function __construct(\xmlrpc_client $client)
+    public function __construct(\xmlrpc_client $client, $prefix = '')
     {
         $this->client = $client;
+        $client->setSSLVerifyHost(2);
+        $this->prefix = $prefix;
     }
 
     /**
@@ -35,6 +40,7 @@ class RequestManager implements RequestManagerInterface
      */
     public function requestTransaction(TransactionRequest $transaction_request)
     {
+        $transaction_request->setPrefix($this->prefix);
         $message = new \xmlrpcmsg(
             'requester.requestTransaction',
             [$this->convertParams($transaction_request->getArrayCopy(), 'transactionRequest')]
@@ -52,7 +58,7 @@ class RequestManager implements RequestManagerInterface
     {
         $message = new \xmlrpcmsg(
             'requester.getTransactionInfoByCustomId',
-            [new \xmlrpcval($custom_id, 'string')]
+            [new \xmlrpcval($this->prefix.$custom_id, 'string')]
         );
         $response = $this->client->send($message);
         $this->handleErrors($response);
@@ -66,7 +72,7 @@ class RequestManager implements RequestManagerInterface
     {
         $message = new \xmlrpcmsg(
             'requester.getDocumentsByCustomId',
-            [new \xmlrpcval($custom_id), 'string']
+            [new \xmlrpcval($this->prefix.$custom_id), 'string']
         );
         $response = $this->client->send($message);
         $this->handleErrors($response);
@@ -120,7 +126,7 @@ class RequestManager implements RequestManagerInterface
             'successURL'            => 'string',
         ];
 
-        return $list[$param]?:'struct';
+        return isset($list[$param]) ? $list[$param] : 'struct';
     }
 
     protected function convertParams($params, $key)

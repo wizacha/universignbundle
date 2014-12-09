@@ -2,12 +2,14 @@ parameters:
     xmlrpc_client.class:        xmlrpc_client
     xmlrpc_client.basic_auth:   ""
     xmlrpc_client.url:          ws.universign.eu/sign/rpc/
-    request_manager.class:      Wizacha\UniversignBundle\Request\RequestManager
+    universign_request_manager.class:      Wizacha\UniversignBundle\Request\RequestManager
+    universign_request_manager.prefix:     ~
+
 
 services:
     xmlrpc_client:
         class:      "%xmlrpc_client.class%"
         arguments:  ["https://%xmlrpc_client.basic_auth%@%xmlrpc_client.url%"]
-    request_manager:
-        class:      "%request_manager.class%"
-        arguments:  ["@xmlrpc_client"]
+    universign_request_manager:
+        class:      "%universign_request_manager.class%"
+        arguments:  ["@xmlrpc_client", "%universign_request_manager.prefix%"]

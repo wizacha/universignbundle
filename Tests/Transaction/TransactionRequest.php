@@ -55,6 +55,27 @@ class TransactionRequest extends atoum
             ]
             )
         ;
+
+        $request->setPrefix('prefix');
+
+        $this
+            ->array($request->getArrayCopy())->isEqualTo(
+                [
+                    'customId' => 'prefixmy_custom_id',
+                    'successURL' => 'success_url',
+                    'signers'   => [
+                        ['signer' => 1],
+                        ['signer' => 2],
+                    ],
+                    'documents' => [
+                        ['document' => 1],
+                        ['document' => 2],
+                    ],
+                    'identificationType'    => 'identification_type',
+                    'language'              => 'specific language',
+                ]
+            )
+            ;
     }
 
     protected function getMockTransactionDocument($get_array_data_value = [])
