@@ -35,6 +35,8 @@ class TransactionRequest extends \ArrayObject
      */
     protected $language             = '';
 
+    protected $prefix               = '';
+
     /**
      * @param array $documents
      * @param $custom_id
@@ -69,6 +71,20 @@ class TransactionRequest extends \ArrayObject
     }
 
     /**
+     * @param string $prefix
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = strval($prefix);
+    }
+
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+
+    /**
      * @inheritdoc
      */
     public function getArrayCopy()
@@ -83,8 +99,10 @@ class TransactionRequest extends \ArrayObject
         foreach ($this['documents'] as $document) {
             $documents[] = $document->getArrayCopy();
         }
+        $datas = parent::getArrayCopy();
+        $datas['customId'] = $this->prefix . $datas['customId'];
 
-        return array_merge(parent::getArrayCopy(), [
+        return array_merge($datas, [
                 'documents' => $documents,
                 'signers'   => $signers
             ]);

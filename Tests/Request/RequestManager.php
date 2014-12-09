@@ -37,6 +37,7 @@ class RequestManager extends atoum
 {
     public function testRequestTransactionConvertRequestAndCheckErrors()
     {
+        $prefix = 'prefix';
         $request = $this->getMockTransactionRequest(
             [
                 'customId'              => 'custom_id',
@@ -100,12 +101,16 @@ class RequestManager extends atoum
         );
         $client = $this->getMockXmlrpcClient(new \xmlrpcresp($send_return_value));
 
-        $manager = new TestedManager($client);
+        $manager = new TestedManager($client, $prefix);
         $temp = new WorkAroudSend();
         $retour = $manager->requestTransaction($request);
         unset($temp);
 
         $this
+            ->mock($request)
+                ->call('setPrefix')
+                    ->withArguments($prefix)
+                        ->once()
             ->mock($client)
                 ->call('send')
                     ->withArguments($expected_request)
@@ -122,7 +127,8 @@ class RequestManager extends atoum
     public function testGetTransactionInfoByCustomIdSendCorrectRequest()
     {
         $custom_id = 'my_id';
-        $expected_request = new \xmlrpcmsg('requester.getTransactionInfoByCustomId', [new \xmlrpcval($custom_id, 'string')]);
+        $prefix = 'prefix';
+        $expected_request = new \xmlrpcmsg('requester.getTransactionInfoByCustomId', [new \xmlrpcval($prefix.$custom_id, 'string')]);
         $send_return_value = new \xmlrpcval(
             [
                 'data' => new \xmlrpcval('hello world', 'string'),
@@ -130,7 +136,7 @@ class RequestManager extends atoum
             'struct'
         );
         $client = $this->getMockXmlrpcClient(new \xmlrpcresp($send_return_value));
-        $manager = new TestedManager($client);
+        $manager = new TestedManager($client, $prefix);
         $temp = new WorkAroudSend();
         $retour = $manager->getTransactionInfoByCustomId($custom_id);
         unset($temp);
@@ -150,7 +156,8 @@ class RequestManager extends atoum
     public function testGetDocumentsByCustomId()
     {
         $custom_id = 'my_id';
-        $expected_request = new \xmlrpcmsg('requester.getDocumentsByCustomId', [new \xmlrpcval($custom_id, 'string')]);
+        $prefix = 'prefix';
+        $expected_request = new \xmlrpcmsg('requester.getDocumentsByCustomId', [new \xmlrpcval($prefix.$custom_id, 'string')]);
         $send_return_value = new \xmlrpcval(
             [
                 'content' => new \xmlrpcval('hello world', 'base64'),
@@ -160,7 +167,7 @@ class RequestManager extends atoum
         );
         $client = $this->getMockXmlrpcClient(new \xmlrpcresp($send_return_value));
 
-        $manager = new TestedManager($client);
+        $manager = new TestedManager($client, $prefix);
         $temp = new WorkAroudSend();
         $retour = $manager->getDocumentsByCustomId($custom_id);
         unset($temp);
