@@ -23,7 +23,13 @@ class RequestManagerFaker implements RequestManagerInterface
      */
     public function requestTransaction(TransactionRequest $transaction_request)
     {
-        return $transaction_request->getArrayCopy()['successURL'];
+        $params = $transaction_request->getArrayCopy();
+        return new TransactionResponse(
+            [
+                'url' => $params['successURL'],
+                'id'  => $params['customId'],
+            ]
+        );
     }
 
     /**
