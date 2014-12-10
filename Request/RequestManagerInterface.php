@@ -31,8 +31,21 @@ interface RequestManagerInterface
 
     /**
      * @param string $custom_id
-     * @return TransactionDocument
+     * @return array list TransactionDocument
      */
     public function getDocumentsByCustomId($custom_id);
+
+    /**
+     * @param string $id (universign transaction id)
+     * @return array list TransactionDocument
+     */
+    public function getDocuments($id);
+
+
+    /**
+     * @param string $id (universign transaction id)
+     * @return TransactionInfo
+     */
+    public function getTransactionInfo($id);
 
 }

@@ -53,9 +53,10 @@ class RequestManagerFaker extends atoum
         $custom_id = 'customID';
         $document = $manager->getDocumentsByCustomId($custom_id);
         $this
-            ->object($document)
+            ->array($document)
+            ->object(reset($document))
                 ->isInstanceOf('Wizacha\UniversignBundle\Document\TransactionDocument')
-            ->array($document->getArrayCopy())
+            ->array(reset($document)->getArrayCopy())
                 ->isEqualTo([
                     'content'   => $custom_id.'content',
                     'name'      => $custom_id.'.doc'

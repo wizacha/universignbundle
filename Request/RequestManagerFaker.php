@@ -45,11 +45,32 @@ class RequestManagerFaker implements RequestManagerInterface
     /**
      * @inheritdoc
      */
-    public function getDocumentsByCustomId($custom_id)
+    public function getDocumentsByCustomId($id)
+    {
+        $document = new TransactionDocument();
+        $document->setContent($id.'content');
+        $document->setName($id.'.doc');
+        return [$document];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTransactionInfo($id)
+    {
+        return new TransactionInfo([
+            'status' => TransactionInfo::STATUS_COMPLETED,
+        ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDocuments($custom_id)
     {
         $document = new TransactionDocument();
         $document->setContent($custom_id.'content');
         $document->setName($custom_id.'.doc');
-        return $document;
+        return [$document];
     }
 }

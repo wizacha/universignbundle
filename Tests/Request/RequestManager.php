@@ -158,11 +158,11 @@ class RequestManager extends atoum
         $custom_id = 'my_id';
         $prefix = 'prefix';
         $expected_request = new \xmlrpcmsg('requester.getDocumentsByCustomId', [new \xmlrpcval($prefix.$custom_id, 'string')]);
-        $send_return_value = new \xmlrpcval(
+        $send_return_value = new \xmlrpcval([
             [
                 'content' => new \xmlrpcval('hello world', 'base64'),
                 'name' => new \xmlrpcval('doc_name')
-            ],
+            ]],
             'struct'
         );
         $client = $this->getMockXmlrpcClient(new \xmlrpcresp($send_return_value));
@@ -179,8 +179,8 @@ class RequestManager extends atoum
             ->mock($manager)
                 ->call('handleErrors')
                     ->once()
-            ->object($retour)
-                ->isEqualTo(new TransactionDocument(['content' => 'hello world', 'name' => 'doc_name']))
+            ->array($retour)
+                ->isEqualTo([new TransactionDocument(['content' => 'hello world', 'name' => 'doc_name'])])
         ;
 
     }
