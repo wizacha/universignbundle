@@ -24,15 +24,35 @@ class RequestManagerFaker extends atoum
         $controller->__construct = function() {};
         $request = new \mock\Wizacha\UniversignBundle\Transaction\TransactionRequest([],'','',[],'','', $controller);
         $request->getMockController()->getArrayCopy = ['successURL' => $return_url, 'customId' => 'myId'];
-        $expected_response = new \Wizacha\UniversignBundle\Transaction\TransactionResponse(
-            [
-                'url' => $return_url,
-                'id'  => 'myId',
-            ]
-        );
+        $response = $manager->requestTransaction($request);
         $this
-            ->object($manager->requestTransaction($request))
-                ->isEqualTo($expected_response);
+            ->object($response)
+            ->string($response->getUrl())
+                ->isEqualTo($return_url)
+            ->string($response->getId())
+                ->isNotEmpty()
+        ;
+    }
+
+    public function testRequestTransactionReturnDifferentId()
+    {
+        $manager = new TestedManager();
+        $return_url = 'http://example.com/returnURL';
+        $controller = new \atoum\mock\controller();
+        $controller->__construct = function() {};
+        $request = new \mock\Wizacha\UniversignBundle\Transaction\TransactionRequest([],'','',[],'','', $controller);
+        $request->getMockController()->getArrayCopy = ['successURL' => $return_url, 'customId' => ''];
+        $first_id = $manager->requestTransaction($request)->getId();
+        $second_id = $manager->requestTransaction($request)->getId();
+
+        $this
+            ->string($first_id)
+                ->isNotEqualTo($second_id)
+            ->string($first_id)
+                ->isNotEmpty()
+            ->string($second_id)
+                ->isNotEmpty()
+        ;
     }
 
     public function testGetTransactionInfoByCustomIdReturnSuccessedTransaction()

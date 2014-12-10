@@ -27,7 +27,7 @@ class RequestManagerFaker implements RequestManagerInterface
         return new TransactionResponse(
             [
                 'url' => $params['successURL'],
-                'id'  => $params['customId'],
+                'id'  => uniqid(),
             ]
         );
     }
