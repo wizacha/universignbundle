@@ -76,7 +76,44 @@ class RequestManager implements RequestManagerInterface
         );
         $response = $this->client->send($message);
         $this->handleErrors($response);
-        return new TransactionDocument($this->convertXmlValue($response->val));
+        $return = [];
+        foreach ($this->convertXmlValue($response->val) as $document_raw) {
+            $return[] = new TransactionDocument($document_raw);
+        }
+        return $return;
+
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTransactionInfo($id)
+    {
+        $message = new \xmlrpcmsg(
+            'requester.getTransactionInfo',
+            [new \xmlrpcval($id, 'string')]
+        );
+        $response = $this->client->send($message);
+        $this->handleErrors($response);
+        return new TransactionInfo($this->convertXmlValue($response->val));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDocuments($id)
+    {
+        $message = new \xmlrpcmsg(
+            'requester.getDocuments',
+            [new \xmlrpcval($id), 'string']
+        );
+        $response = $this->client->send($message);
+        $this->handleErrors($response);
+        $return = [];
+        foreach ($this->convertXmlValue($response->val) as $document_raw) {
+            $return[] = new TransactionDocument($document_raw);
+        }
+        return $return;
 
     }
 
