@@ -149,8 +149,8 @@ class RequestManager implements RequestManagerInterface
             'documents'             => 'array',
             'emailAddress'          => 'string',
             'firstname'             => 'string',
-            'identificationType'    => 'string',
-            'language'              => 'string',
+            TransactionRequest::KEY_OPTIONAL_IDENTIFICATION_TYPE    => 'string',
+            TransactionRequest::KEY_OPTIONAL_LANGUAGE               => 'string',
             'lastname'              => 'string',
             'location'              => 'string',
             'name'                  => 'string',
@@ -161,6 +161,8 @@ class RequestManager implements RequestManagerInterface
             'signatureFormat'       => 'string',
             'signers'               => 'array',
             'successURL'            => 'string',
+            TransactionRequest::KEY_FINAL_DOC_REQUESTER_SENT        => 'boolean',
+            TransactionRequest::KEY_FINAL_DOC_SENT                  => 'boolean',
         ];
 
         return isset($list[$param]) ? $list[$param] : 'struct';

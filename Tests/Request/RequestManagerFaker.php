@@ -22,7 +22,7 @@ class RequestManagerFaker extends atoum
         $return_url = 'http://example.com/returnURL';
         $controller = new \atoum\mock\controller();
         $controller->__construct = function() {};
-        $request = new \mock\Wizacha\UniversignBundle\Transaction\TransactionRequest([],'','',[],'','', $controller);
+        $request = new \mock\Wizacha\UniversignBundle\Transaction\TransactionRequest([],'','',[], [], $controller);
         $request->getMockController()->getArrayCopy = ['successURL' => $return_url, 'customId' => 'myId'];
         $response = $manager->requestTransaction($request);
         $this
@@ -40,7 +40,7 @@ class RequestManagerFaker extends atoum
         $return_url = 'http://example.com/returnURL';
         $controller = new \atoum\mock\controller();
         $controller->__construct = function() {};
-        $request = new \mock\Wizacha\UniversignBundle\Transaction\TransactionRequest([],'','',[],'','', $controller);
+        $request = new \mock\Wizacha\UniversignBundle\Transaction\TransactionRequest([],'','',[], [], $controller);
         $request->getMockController()->getArrayCopy = ['successURL' => $return_url, 'customId' => ''];
         $first_id = $manager->requestTransaction($request)->getId();
         $second_id = $manager->requestTransaction($request)->getId();
