@@ -34,8 +34,13 @@ class TransactionRequest extends atoum
                 'signer 3',
                 $this->getMockTransactionSigners(['signer' => 2]),
             ],
-            'identification_type',
-            'specific language'
+            [
+                TestedTransactionRequest::KEY_OPTIONAL_IDENTIFICATION_TYPE  => 'identification_type',
+                TestedTransactionRequest::KEY_OPTIONAL_LANGUAGE             => 'specific language',
+                TestedTransactionRequest::KEY_FINAL_DOC_SENT                => true,
+                TestedTransactionRequest::KEY_FINAL_DOC_REQUESTER_SENT      => true,
+            ]
+
         );
         $this
             ->array($request->getArrayCopy())->isEqualTo(
@@ -50,8 +55,10 @@ class TransactionRequest extends atoum
                     ['document' => 1],
                     ['document' => 2],
                 ],
-                'identificationType'    => 'identification_type',
-                'language'              => 'specific language',
+                TestedTransactionRequest::KEY_OPTIONAL_IDENTIFICATION_TYPE  => 'identification_type',
+                TestedTransactionRequest::KEY_OPTIONAL_LANGUAGE             => 'specific language',
+                TestedTransactionRequest::KEY_FINAL_DOC_SENT                => true,
+                TestedTransactionRequest::KEY_FINAL_DOC_REQUESTER_SENT      => true,
             ]
             )
         ;
@@ -71,11 +78,51 @@ class TransactionRequest extends atoum
                         ['document' => 1],
                         ['document' => 2],
                     ],
-                    'identificationType'    => 'identification_type',
-                    'language'              => 'specific language',
+                    TestedTransactionRequest::KEY_OPTIONAL_IDENTIFICATION_TYPE  => 'identification_type',
+                    TestedTransactionRequest::KEY_OPTIONAL_LANGUAGE             => 'specific language',
+                    TestedTransactionRequest::KEY_FINAL_DOC_SENT                => true,
+                    TestedTransactionRequest::KEY_FINAL_DOC_REQUESTER_SENT      => true,
                 ]
             )
             ;
+    }
+
+    public function testOptionalDefaultValue()
+    {
+        $request = new TestedTransactionRequest(
+            [
+                $this->getMockTransactionDocument(['document' => 1]),
+                'document 3',
+                $this->getMockTransactionDocument(['document' => 2]),
+            ],
+            'my_custom_id',
+            'success_url',
+            [
+                $this->getMockTransactionSigners(['signer' => 1]),
+                'signer 3',
+                $this->getMockTransactionSigners(['signer' => 2]),
+            ]
+        );
+        $this
+            ->array($request->getArrayCopy())->isEqualTo(
+                [
+                    'customId' => 'my_custom_id',
+                    'successURL' => 'success_url',
+                    'signers'   => [
+                        ['signer' => 1],
+                        ['signer' => 2],
+                    ],
+                    'documents' => [
+                        ['document' => 1],
+                        ['document' => 2],
+                    ],
+                    TestedTransactionRequest::KEY_OPTIONAL_IDENTIFICATION_TYPE  => 'none',
+                    TestedTransactionRequest::KEY_OPTIONAL_LANGUAGE             => 'en',
+                    TestedTransactionRequest::KEY_FINAL_DOC_SENT                => false,
+                    TestedTransactionRequest::KEY_FINAL_DOC_REQUESTER_SENT      => false,
+                ]
+            )
+        ;
     }
 
     protected function getMockTransactionDocument($get_array_data_value = [])

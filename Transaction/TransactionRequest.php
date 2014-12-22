@@ -23,6 +23,26 @@ use Wizacha\UniversignBundle\Signer\TransactionSigner;
 class TransactionRequest extends \ArrayObject
 {
     /**
+     * Possible values : 'none', 'email', 'sms'
+     */
+    const KEY_OPTIONAL_IDENTIFICATION_TYPE = 'identificationType';
+
+    /**
+     * Possible value : 'en', fr'
+     */
+    const KEY_OPTIONAL_LANGUAGE = 'language';
+
+    /**
+     * Expect an boolean
+     */
+    const KEY_FINAL_DOC_SENT = 'finalDocSent';
+
+    /**
+     * Expect an boolean
+     */
+    const KEY_FINAL_DOC_REQUESTER_SENT = 'finalDocRequesterSent';
+
+    /**
      * This option indicate wich authentification type will be used
      * when a signer will attempt to sign
      * @var string (none|email|sms)
@@ -39,14 +59,22 @@ class TransactionRequest extends \ArrayObject
 
     /**
      * @param array $documents
-     * @param $custom_id
-     * @param $successURL
+     * @param int $custom_id
+     * @param string $successURL
      * @param array $signers
-     * @param string $identification_type
-     * @param string $language
+     * @param array $optionnal_fields
      */
-    public function __construct(array $documents, $custom_id, $successURL, array $signers, $identification_type = 'none', $language = 'en')
+    public function __construct(array $documents, $custom_id, $successURL, array $signers, array $optionnal_fields = [])
     {
+        $default_optionnal_value = [
+            self::KEY_OPTIONAL_IDENTIFICATION_TYPE => 'none',
+            self::KEY_OPTIONAL_LANGUAGE => 'en',
+            self::KEY_FINAL_DOC_SENT => false,
+            self::KEY_FINAL_DOC_REQUESTER_SENT => false,
+        ];
+        $optionnal_fields = array_intersect_key($optionnal_fields, $default_optionnal_value);
+        $optionnal_fields = array_merge($default_optionnal_value, $optionnal_fields);
+
         $documents = array_filter($documents, function ($document) {return $document instanceof TransactionDocument;});
         if(empty($documents)) {
             throw new \Exception('TransactionRequest require at least one document');
@@ -57,17 +85,15 @@ class TransactionRequest extends \ArrayObject
             throw new \Exception('TransactionRequest require at least one signer');
         }
 
-        parent::__construct(
+        parent::__construct(array_merge(
             [
                 'customId'              => $custom_id,
                 'successURL'            => $successURL,
                 'documents'             => $documents,
                 'signers'               => $signers,
-                'identificationType'    => $identification_type,
-                'language'              => $language,
-
-            ]
-        );
+            ],
+            $optionnal_fields
+        ));
     }
 
     /**
