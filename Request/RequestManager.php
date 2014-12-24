@@ -31,8 +31,11 @@ class RequestManager implements RequestManagerInterface
     public function __construct(\xmlrpc_client $client, $prefix = '')
     {
         $this->client = $client;
-        $client->setSSLVerifyHost(2);
         $this->prefix = $prefix;
+
+        //This value cannot be set via dependency injection :(
+        global $xmlrpc_internalencoding;
+        $xmlrpc_internalencoding = 'UTF-8';
     }
 
     /**
