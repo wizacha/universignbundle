@@ -15,10 +15,14 @@ use Wizacha\UniversignBundle\Transaction\TransactionResponse;
 use Wizacha\UniversignBundle\Transaction\TransactionInfo;
 use Wizacha\UniversignBundle\Document\TransactionDocument;
 
+/**
+ * Interface RequestManagerInterface
+ * @package Wizacha\UniversignBundle
+ */
 interface RequestManagerInterface
 {
     /**
-     * @param TransactionRequest $transactionRequest
+     * @param TransactionRequest $transaction_request
      * @return TransactionResponse
      */
     public function requestTransaction(TransactionRequest $transaction_request);

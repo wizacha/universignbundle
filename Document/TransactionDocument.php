@@ -12,8 +12,8 @@ namespace Wizacha\UniversignBundle\Document;
 
 /**
  * Class TransactionDocument
- * this class is used like output and input data.
- * @package Wizacha\UniversignBundle\Document
+ * this class is used for output and input data.
+ * @package Wizacha\UniversignBundle
  */
 class TransactionDocument extends \ArrayObject
 {

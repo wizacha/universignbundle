@@ -15,6 +15,12 @@ use Wizacha\UniversignBundle\Transaction\TransactionRequest;
 use Wizacha\UniversignBundle\Transaction\TransactionResponse;
 use Wizacha\UniversignBundle\Transaction\TransactionInfo;;
 
+/**
+ * Class RequestManagerFaker
+ * This request manager return Completed status for all transaction and return documents
+ * with minimal informations.
+ * @package Wizacha\UniversignBundle
+ */
 class RequestManagerFaker implements RequestManagerInterface
 {
 

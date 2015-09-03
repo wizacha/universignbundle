@@ -15,6 +15,10 @@ use Wizacha\UniversignBundle\Transaction\TransactionInfo;
 use Wizacha\UniversignBundle\Transaction\TransactionRequest;
 use Wizacha\UniversignBundle\Transaction\TransactionResponse;
 
+/**
+ * Class RequestManager
+ * @package Wizacha\UniversignBundle
+ */
 class RequestManager implements RequestManagerInterface
 {
 

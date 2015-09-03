@@ -15,6 +15,10 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
+/**
+ * Class WizachaUniversignExtension
+ * @package Wizacha\UniversignBundle
+ */
 class WizachaUniversignExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)

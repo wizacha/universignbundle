@@ -15,7 +15,7 @@ namespace Wizacha\UniversignBundle\Certificate;
  * The certificateInfo struct contains informations about
  * a certificate. This structure is used as a return
  * value only, and will never be instanciated by users
- * @package Wizacha\UniversignBundle\Certificate
+ * @package Wizacha\UniversignBundle
  */
 class CertificateInfo extends \ArrayObject
 {
