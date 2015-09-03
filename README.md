@@ -3,24 +3,7 @@ Installation
 
 Step 1: Download the Bundle
 ---------------------------
-Via composer
-
-```
-#!json
-{
-    "require": {
-        "wizacha/universign-bundle": "dev-master"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@bitbucket.org:wizacha/universignbundle.git"
-        }
-    ]
-}
-```
-
-
+Via composer :`composer require wizacha/universign-bundle`
 
 Step 2: Enable the Bundle
 -------------------------
