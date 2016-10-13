@@ -17,6 +17,8 @@ namespace Wizacha\UniversignBundle\Document;
  */
 class TransactionDocument extends \ArrayObject
 {
+    protected $signatureFields = [];
+
     /**
      * @param string $content
      */
@@ -47,5 +49,31 @@ class TransactionDocument extends \ArrayObject
     public function getName()
     {
         return @$this['name'];
+    }
+
+    /**
+     * @param array $signatureField]
+     */
+    public function addSignatureField(array $signatureField)
+    {
+        $this->signatureFields[] = $signatureField;
+        $this->offsetSet('signatureFields', $this->signatureFields);
+    }
+
+    /**
+     * @param array $signatureField
+     */
+    public function setSignatureFields(array $signatureField)
+    {
+        $this->signatureFields = $signatureField;
+        $this->offsetSet('signatureFields', $signatureField);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSignatureFields()
+    {
+        return @$this['signatureFields'];
     }
 }
