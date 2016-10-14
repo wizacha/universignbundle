@@ -127,14 +127,14 @@ class TransactionRequest extends atoum
 
     protected function getMockTransactionDocument($get_array_data_value = [])
     {
-        $return = new \mock\Wizacha\UniversignBundle\Document\TransactionDocument([]);
+        $return = new \mock\Wizacha\UniversignBundle\Document\TransactionDocument([], 0, 'ArrayIterator');
         $return->getMockController()->getArrayCopy = $get_array_data_value;
         return $return;
     }
 
     protected function getMockTransactionSigners($get_array_data_value = [])
     {
-        $return = new \mock\Wizacha\UniversignBundle\Signer\TransactionSigner([]);
+        $return = new \mock\Wizacha\UniversignBundle\Signer\TransactionSigner([], 0, 'ArrayIterator');
         $return->getMockController()->getArrayCopy = $get_array_data_value;
         return $return;
     }
