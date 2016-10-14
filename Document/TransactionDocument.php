@@ -26,6 +26,22 @@ class TransactionDocument extends \ArrayObject
     protected $signatureFields = [];
 
     /**
+     * @param array $checkBoxTexts
+     */
+    public function setCheckBoxTexts($checkBoxTexts)
+    {
+        $this->offsetSet('checkBoxTexts', $checkBoxTexts);
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getCheckBoxTexts()
+    {
+        return @$this['checkBoxTexts'];
+    }
+
+    /**
      * @param string $content
      */
     public function setContent($content)
@@ -58,7 +74,7 @@ class TransactionDocument extends \ArrayObject
     }
 
     /**
-     * @param array $signatureField
+     * @param array $signatureField]
      */
     public function addSignatureField(array $signatureField)
     {
@@ -69,9 +85,8 @@ class TransactionDocument extends \ArrayObject
     /**
      * @param array $signatureField
      */
-    public function setSignatureFields(array $signatureField)
+    public function setSignatureFields($signatureField)
     {
-        $this->signatureFields = $signatureField;
         $this->offsetSet('signatureFields', $signatureField);
     }
 
