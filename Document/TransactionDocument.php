@@ -17,6 +17,12 @@ namespace Wizacha\UniversignBundle\Document;
  */
 class TransactionDocument extends \ArrayObject
 {
+    /**
+     * @var array
+     *
+     * Required values : {"page" => "Page number", "x" => "X coordinates", "y" => "Y coordinates", "signerIndex" => "Signer index"}
+     * Optional values : {"name" => "Name of the signature field"}
+     */
     protected $signatureFields = [];
 
     /**
@@ -52,7 +58,7 @@ class TransactionDocument extends \ArrayObject
     }
 
     /**
-     * @param array $signatureField]
+     * @param array $signatureField
      */
     public function addSignatureField(array $signatureField)
     {
