@@ -74,7 +74,7 @@ class TransactionDocument extends \ArrayObject
     }
 
     /**
-     * @param array $signatureField]
+     * @param array $signatureField
      */
     public function addSignatureField(array $signatureField)
     {
