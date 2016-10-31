@@ -17,6 +17,7 @@ use Wizacha\UniversignBundle\Transaction\TransactionResponse;
 
 /**
  * Class RequestManager
+ *
  * @package Wizacha\UniversignBundle
  */
 class RequestManager implements RequestManagerInterface
@@ -28,9 +29,10 @@ class RequestManager implements RequestManagerInterface
     protected $client = null;
 
     protected $prefix = '';
+
     /**
      * @param \xmlrpc_client $client
-     * @param string $prefix
+     * @param string         $prefix
      */
     public function __construct(\xmlrpc_client $client, $prefix = '')
     {
@@ -55,6 +57,7 @@ class RequestManager implements RequestManagerInterface
 
         $response = $this->client->send($message);
         $this->handleErrors($response);
+
         return new TransactionResponse($this->convertXmlValue($response->val));
     }
 
@@ -65,10 +68,11 @@ class RequestManager implements RequestManagerInterface
     {
         $message = new \xmlrpcmsg(
             'requester.getTransactionInfoByCustomId',
-            [new \xmlrpcval($this->prefix.$custom_id, 'string')]
+            [new \xmlrpcval($this->prefix . $custom_id, 'string')]
         );
         $response = $this->client->send($message);
         $this->handleErrors($response);
+
         return new TransactionInfo($this->convertXmlValue($response->val));
     }
 
@@ -79,7 +83,7 @@ class RequestManager implements RequestManagerInterface
     {
         $message = new \xmlrpcmsg(
             'requester.getDocumentsByCustomId',
-            [new \xmlrpcval($this->prefix.$custom_id), 'string']
+            [new \xmlrpcval($this->prefix . $custom_id), 'string']
         );
         $response = $this->client->send($message);
         $this->handleErrors($response);
@@ -87,8 +91,8 @@ class RequestManager implements RequestManagerInterface
         foreach ($this->convertXmlValue($response->val) as $document_raw) {
             $return[] = new TransactionDocument($document_raw);
         }
-        return $return;
 
+        return $return;
     }
 
     /**
@@ -102,6 +106,7 @@ class RequestManager implements RequestManagerInterface
         );
         $response = $this->client->send($message);
         $this->handleErrors($response);
+
         return new TransactionInfo($this->convertXmlValue($response->val));
     }
 
@@ -120,18 +125,19 @@ class RequestManager implements RequestManagerInterface
         foreach ($this->convertXmlValue($response->val) as $document_raw) {
             $return[] = new TransactionDocument($document_raw);
         }
-        return $return;
 
+        return $return;
     }
 
     /**
      * @param \xmlrpcresp $response
+     *
      * @throws \Exception
      */
     public function handleErrors(\xmlrpcresp $response)
     {
         if ($response->errno) {
-            throw new \Exception('Request has error n°'.$response->errno.' with message'.$response->errstr);
+            throw new \Exception('Request has error n°' . $response->errno . ' with message' . $response->errstr);
         }
     }
 
@@ -145,12 +151,14 @@ class RequestManager implements RequestManagerInterface
                 $value[$k] = $this->convertXmlValue($v);
             }
         }
+
         return $value;
     }
 
     protected function getParamType($param)
     {
         static $list = [
+            'checkBoxTexts'                                      => 'array',
             'content'                                            => 'base64',
             'customId'                                           => 'string',
             'documents'                                          => 'array',
@@ -182,6 +190,14 @@ class RequestManager implements RequestManagerInterface
 
     protected function convertParams($params, $key)
     {
+        if ($key === 'checkBoxTexts') {
+            foreach ($params as $paramsKey => $param) {
+                $params[$paramsKey] = new \xmlrpcval($param, 'string');
+            }
+            $params[] = new \xmlrpcval('signed', 'string');
+
+            return new \xmlrpcval($params, $this->getParamType($key));
+        }
         if (!is_array($params)) {
             return new \xmlrpcval($params, $this->getParamType($key));
         }
@@ -189,6 +205,7 @@ class RequestManager implements RequestManagerInterface
         foreach ($params as $param_name => $value) {
             $return[$param_name] = $this->convertParams($value, $param_name);
         }
+
         return new \xmlrpcval($return, $this->getParamType($key));
     }
 
