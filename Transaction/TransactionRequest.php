@@ -59,7 +59,7 @@ class TransactionRequest extends \ArrayObject
 
     /**
      * @param array $documents
-     * @param int $custom_id
+     * @param string $custom_id
      * @param string $successURL
      * @param array $signers
      * @param array $optionnal_fields
